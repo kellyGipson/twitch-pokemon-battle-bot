@@ -1,0 +1,19 @@
+{
+  "name": "chat-battle",
+  "version": "1.0.0",
+  "description": "Pokemon Battles with Twitch Chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "@types/tmi.js": "^1.8.2",
+    "typescript": "^4.9.4"
+  }
+}
