@@ -42,14 +42,14 @@ client.on('message', (channel, userstate, message, self) => {
   }
 
   if (cmds.choosePokemon(messageModel.command)) {
-    if (!messageModel.areParamsEmpty() || !appState.hasBothPlayers()) {
+    if (!messageModel.areParamsEmpty()) {// add back appState.hasBothPlayers()
       api.getPokemonByName(
         messageModel.paramAtIndex(0).toLowerCase()
       ).then((p) => {
         const pokemon: Pokemon = new Pokemon().fromApi(p);
         appState.assignPokemonToPlayer(userstate.username, pokemon);
       }).catch((err) => {
-        client.say(channel, `Error: Issue pulling data for Pokemon: "${messageModel.paramAtIndex(0)}".`);
+        client.say(channel, `Error: Issue pulling data for Pokemon: "${messageModel.paramAtIndex(0)}". Please try again.`);
       });
     }
   }
@@ -61,5 +61,4 @@ client.on('message', (channel, userstate, message, self) => {
     appState.clear();
     client.say(channel, 'cleared.');
   }
-
 });

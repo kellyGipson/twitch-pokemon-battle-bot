@@ -41,12 +41,12 @@ export class Pokemon {
     merge(this, pokemon);
 
     this.nature  = this._initNature();
-    this.ivHP    = this._initStatIV();
-    this.ivAtk   = this._initStatIV();
-    this.ivSpAtk = this._initStatIV();
-    this.ivDef   = this._initStatIV();
-    this.ivSpDef = this._initStatIV();
-    this.ivSpd   = this._initStatIV();
+    this.ivHP    = this._initIV();
+    this.ivAtk   = this._initIV();
+    this.ivSpAtk = this._initIV();
+    this.ivDef   = this._initIV();
+    this.ivSpDef = this._initIV();
+    this.ivSpd   = this._initIV();
   }
 
   fromApi(p: pokenotePokemon): Pokemon {
@@ -68,7 +68,7 @@ export class Pokemon {
     return NatureMap.get(PokemonNatures[randomNatureIndex]);
   }
 
-  private _initStatIV(): number {
+  private _initIV(): number {
     return Math.ceil((Math.random() + 1) * 31);
   }
 }

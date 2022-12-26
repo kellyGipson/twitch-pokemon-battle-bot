@@ -1,5 +1,4 @@
-import { StatsEnum } from "./pokemon-state";
-import { TypesEnum } from "./pokemon-types";
+import { StatsEnum } from "./pokemon-stats";
 
 export enum NaturesEnum {
   ADAMANT = 'ADAMANT',
@@ -63,30 +62,32 @@ export interface NaturesDataInterface {
   decrease: StatsEnum;
 }
 
-export const NaturesData: { [key: string]: NaturesDataInterface } = {
-  ADAMANT: { name: NaturesEnum.ADAMANT, increase: StatsEnum.Atk,   decrease: StatsEnum.SpAtk },
-  BASHFUL: { name: NaturesEnum.BASHFUL, increase: StatsEnum.SpAtk, decrease: StatsEnum.SpAtk },
-  BOLD:    { name: NaturesEnum.BOLD,    increase: StatsEnum.Def,   decrease: StatsEnum.Atk   },
-  BRAVE:   { name: NaturesEnum.BRAVE,   increase: StatsEnum.Atk,   decrease: StatsEnum.Spe   },
-  CALM:    { name: NaturesEnum.CALM,    increase: StatsEnum.SpDef, decrease: StatsEnum.Atk   },
-  CAREFUL: { name: NaturesEnum.CAREFUL, increase: StatsEnum.SpDef, decrease: StatsEnum.SpAtk },
-  DOCILE:  { name: NaturesEnum.DOCILE,  increase: StatsEnum.Def,   decrease: StatsEnum.Def   },
-  GENTLE:  { name: NaturesEnum.GENTLE,  increase: StatsEnum.SpDef, decrease: StatsEnum.Def   },
-  HARDY:   { name: NaturesEnum.HARDY,   increase: StatsEnum.Atk,   decrease: StatsEnum.Atk   },
-  HASTY:   { name: NaturesEnum.HASTY,   increase: StatsEnum.Atk,   decrease: StatsEnum.Atk   },
-  IMPISH:  { name: NaturesEnum.IMPISH,  increase: StatsEnum.Def,   decrease: StatsEnum.SpAtk },
-  JOLLY:   { name: NaturesEnum.JOLLY,   increase: StatsEnum.Spe,   decrease: StatsEnum.SpAtk },
-  LAX:     { name: NaturesEnum.LAX,     increase: StatsEnum.Def,   decrease: StatsEnum.SpDef },
-  LONELY:  { name: NaturesEnum.LONELY,  increase: StatsEnum.Atk,   decrease: StatsEnum.Def   },
-  MILD:    { name: NaturesEnum.MILD,    increase: StatsEnum.SpAtk, decrease: StatsEnum.Def   },
-  MODEST:  { name: NaturesEnum.MODEST,  increase: StatsEnum.SpAtk, decrease: StatsEnum.Atk   },
-  NAIVE:   { name: NaturesEnum.NAIVE,   increase: StatsEnum.Spe,   decrease: StatsEnum.SpDef },
-  NAUGHTY: { name: NaturesEnum.NAUGHTY, increase: StatsEnum.Atk,   decrease: StatsEnum.SpDef },
-  QUIET:   { name: NaturesEnum.QUIET,   increase: StatsEnum.SpAtk, decrease: StatsEnum.Spe   },
-  QUIRKY:  { name: NaturesEnum.QUIRKY,  increase: StatsEnum.SpDef, decrease: StatsEnum.SpDef },
-  RASH:    { name: NaturesEnum.RASH,    increase: StatsEnum.SpAtk, decrease: StatsEnum.SpDef },
-  RELAXED: { name: NaturesEnum.RELAXED, increase: StatsEnum.Def,   decrease: StatsEnum.Spe   },
-  SASSY:   { name: NaturesEnum.SASSY,   increase: StatsEnum.SpDef, decrease: StatsEnum.Spe   },
-  SERIOUS: { name: NaturesEnum.SERIOUS, increase: StatsEnum.Spe,   decrease: StatsEnum.Spe   },
-  TIMID:   { name: NaturesEnum.TIMID,   increase: StatsEnum.Spe,   decrease: StatsEnum.Atk   },
+export type NaturesDataType = { [key: string]: NaturesDataInterface };
+
+export const NaturesData: NaturesDataType = {
+  [NaturesEnum.ADAMANT]: { name: NaturesEnum.ADAMANT, increase: StatsEnum.Atk,   decrease: StatsEnum.SpAtk },
+  [NaturesEnum.BASHFUL]: { name: NaturesEnum.BASHFUL, increase: StatsEnum.SpAtk, decrease: StatsEnum.SpAtk },
+  [NaturesEnum.BOLD   ]: { name: NaturesEnum.BOLD,    increase: StatsEnum.Def,   decrease: StatsEnum.Atk   },
+  [NaturesEnum.BRAVE  ]: { name: NaturesEnum.BRAVE,   increase: StatsEnum.Atk,   decrease: StatsEnum.Spe   },
+  [NaturesEnum.CALM   ]: { name: NaturesEnum.CALM,    increase: StatsEnum.SpDef, decrease: StatsEnum.Atk   },
+  [NaturesEnum.CAREFUL]: { name: NaturesEnum.CAREFUL, increase: StatsEnum.SpDef, decrease: StatsEnum.SpAtk },
+  [NaturesEnum.DOCILE ]: { name: NaturesEnum.DOCILE,  increase: StatsEnum.Def,   decrease: StatsEnum.Def   },
+  [NaturesEnum.GENTLE ]: { name: NaturesEnum.GENTLE,  increase: StatsEnum.SpDef, decrease: StatsEnum.Def   },
+  [NaturesEnum.HARDY  ]: { name: NaturesEnum.HARDY,   increase: StatsEnum.Atk,   decrease: StatsEnum.Atk   },
+  [NaturesEnum.HASTY  ]: { name: NaturesEnum.HASTY,   increase: StatsEnum.Atk,   decrease: StatsEnum.Atk   },
+  [NaturesEnum.IMPISH ]: { name: NaturesEnum.IMPISH,  increase: StatsEnum.Def,   decrease: StatsEnum.SpAtk },
+  [NaturesEnum.JOLLY  ]: { name: NaturesEnum.JOLLY,   increase: StatsEnum.Spe,   decrease: StatsEnum.SpAtk },
+  [NaturesEnum.LAX    ]: { name: NaturesEnum.LAX,     increase: StatsEnum.Def,   decrease: StatsEnum.SpDef },
+  [NaturesEnum.LONELY ]: { name: NaturesEnum.LONELY,  increase: StatsEnum.Atk,   decrease: StatsEnum.Def   },
+  [NaturesEnum.MILD   ]: { name: NaturesEnum.MILD,    increase: StatsEnum.SpAtk, decrease: StatsEnum.Def   },
+  [NaturesEnum.MODEST ]: { name: NaturesEnum.MODEST,  increase: StatsEnum.SpAtk, decrease: StatsEnum.Atk   },
+  [NaturesEnum.NAIVE  ]: { name: NaturesEnum.NAIVE,   increase: StatsEnum.Spe,   decrease: StatsEnum.SpDef },
+  [NaturesEnum.NAUGHTY]: { name: NaturesEnum.NAUGHTY, increase: StatsEnum.Atk,   decrease: StatsEnum.SpDef },
+  [NaturesEnum.QUIET  ]: { name: NaturesEnum.QUIET,   increase: StatsEnum.SpAtk, decrease: StatsEnum.Spe   },
+  [NaturesEnum.QUIRKY ]: { name: NaturesEnum.QUIRKY,  increase: StatsEnum.SpDef, decrease: StatsEnum.SpDef },
+  [NaturesEnum.RASH   ]: { name: NaturesEnum.RASH,    increase: StatsEnum.SpAtk, decrease: StatsEnum.SpDef },
+  [NaturesEnum.RELAXED]: { name: NaturesEnum.RELAXED, increase: StatsEnum.Def,   decrease: StatsEnum.Spe   },
+  [NaturesEnum.SASSY  ]: { name: NaturesEnum.SASSY,   increase: StatsEnum.SpDef, decrease: StatsEnum.Spe   },
+  [NaturesEnum.SERIOUS]: { name: NaturesEnum.SERIOUS, increase: StatsEnum.Spe,   decrease: StatsEnum.Spe   },
+  [NaturesEnum.TIMID  ]: { name: NaturesEnum.TIMID,   increase: StatsEnum.Spe,   decrease: StatsEnum.Atk   },
 };

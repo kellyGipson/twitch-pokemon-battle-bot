@@ -13,6 +13,13 @@ export class State {
 
   constructor() {}
 
+  findPlayerByUsername(username: string): Player {
+    if (this.playerOne.username === username) return this.playerOne;
+    if (this.playerTwo.username === username) return this.playerTwo;
+
+    return undefined;
+  }
+
   assignPokemonToPlayer(username: string, pokemon: Pokemon): void {
     if (this.playerOne?.username === username) {
       this.playerOne?.setPokemon(pokemon);
