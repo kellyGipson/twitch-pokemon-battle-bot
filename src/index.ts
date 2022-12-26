@@ -1,5 +1,4 @@
 import { Client } from 'tmi.js';
-import * as PokeApi from 'pokeapi-typescript';
 import { BOT_AUTH } from './config/bot-auth';
 import { BattleHandler } from './models/classes/battle-handler.model';
 import { Message } from './models/classes/message.model';
@@ -7,9 +6,9 @@ import * as cmds from './models/functions/commands';
 import { State } from './models/state/state';
 import { INIT_NATURE_MAP, INIT_TYPE_CHART_MAP } from './models/functions/init_app';
 import { LobbyHandler } from './models/classes/lobby-handler.model';
-import { PokemonNatures } from './models/enums/pokemon-natures';
 import { BATTLE_COMMANDS } from './models/messages/battleCommands.messages';
-import { head } from 'lodash';
+import { PokemonClient } from 'pokenode-ts';
+import { Pokemon } from './models/classes/pokemon.model';
 
 export const appState = new State();
 export const TypeMap = INIT_TYPE_CHART_MAP();
@@ -29,9 +28,7 @@ client.on('message', (channel, userstate, message, self) => {
   }
 
   const messageModel = new Message(message);
-
-  // const randomNatureIndex = Math.ceil(Math.random() * 24);
-  // console.log(randomNatureIndex, PokemonNatures[randomNatureIndex], NatureMap.get(PokemonNatures[randomNatureIndex]));
+  const api = new PokemonClient();
 
   if (cmds.listBattleCommands(messageModel.command)) {
     appState.pauseCommands();
@@ -45,6 +42,16 @@ client.on('message', (channel, userstate, message, self) => {
   }
 
   if (cmds.choosePokemon(messageModel.command)) {
+    if (!messageModel.areParamsEmpty() || !appState.hasBothPlayers()) {
+      api.getPokemonByName(
+        messageModel.paramAtIndex(0).toLowerCase()
+      ).then((p) => {
+        const pokemon: Pokemon = new Pokemon().fromApi(p);
+        appState.assignPokemonToPlayer(userstate.username, pokemon);
+      }).catch((err) => {
+        client.say(channel, `Error: Issue pulling data for Pokemon: "${messageModel.paramAtIndex(0)}".`);
+      });
+    }
   }
 
   if (cmds.attack(messageModel.command)) {
@@ -52,7 +59,7 @@ client.on('message', (channel, userstate, message, self) => {
 
   if (message === '!clearState') {
     appState.clear();
-    client.say(channel, 'cleared. bitch.');
+    client.say(channel, 'cleared.');
   }
 
 });

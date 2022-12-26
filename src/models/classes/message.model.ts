@@ -8,6 +8,10 @@ export class Message {
     merge(this, this._parseMessage(message));
   }
 
+  areParamsEmpty(): boolean {
+    return this.params.length === 0;
+  }
+
   get command(): string {
     return this._command;
   }

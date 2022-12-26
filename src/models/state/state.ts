@@ -1,4 +1,5 @@
 import { Player } from "../classes/player.model";
+import { Pokemon } from "../classes/pokemon.model";
 
 export class State {
   playerOne: Player = null;
@@ -12,6 +13,20 @@ export class State {
 
   constructor() {}
 
+  assignPokemonToPlayer(username: string, pokemon: Pokemon): void {
+    if (this.playerOne?.username === username) {
+      this.playerOne?.setPokemon(pokemon);
+    }
+
+    if (this.playerTwo?.username === username) {
+      this.playerTwo?.setPokemon(pokemon);
+    }
+  }
+
+  bothPlayersSelectedPokemon(): boolean {
+    return this.playerOne.hasChosenPokemon() && this.playerTwo.hasChosenPokemon();
+  }
+
   pauseCommands(): void {
     this._isPauseCommands = true;
     setTimeout(() => {
@@ -23,6 +38,10 @@ export class State {
     this.playerOne = null;
     this.playerTwo = null;
     this.winner = null;
+  }
+
+  hasBothPlayers(): boolean {
+    return !!this.playerOne && !!this.playerTwo;
   }
 
   /**
@@ -41,11 +60,7 @@ export class State {
   attemptAssignP2(username: string): boolean {
     if (!!this.playerTwo || this.playerOne?.username === username) { return false; }
 
-    this.playerOne = new Player({ username });
+    this.playerTwo = new Player({ username });
     return true;
-  }
-
-  updatePlayerPokemon(pokemon) {
-
   }
 }

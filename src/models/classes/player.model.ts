@@ -11,9 +11,13 @@ export class Player {
     merge(this, player);
   }
 
-  choosePokemon(pokemon: Pokemon): void {
-    if (!pokemon) { return; }
-    
-    this.pokemonChosen = pokemon;
+  setPokemon(pokemon: Partial<Pokemon>): void {
+    if (!this.pokemonChosen) {
+      this.pokemonChosen = new Pokemon(pokemon);
+    }
+  }
+
+  hasChosenPokemon(): boolean {
+    return !!this.pokemonChosen;
   }
 }

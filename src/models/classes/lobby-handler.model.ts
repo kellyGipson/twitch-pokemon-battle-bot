@@ -36,9 +36,9 @@ export class LobbyHandler {
 
   private _beginJoinTimer(channel: string): void {
     setTimeout(() => {
-      if (!!appState.playerTwo) { return; }
-
-      this._cancelBattle(channel);
+      if (!appState.playerTwo) {
+        this._cancelBattle(channel);
+      }
     }, 20000)
   }
 
