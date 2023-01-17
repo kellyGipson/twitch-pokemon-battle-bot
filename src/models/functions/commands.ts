@@ -1,4 +1,4 @@
-import { CommandsEnum } from "../enums/commands.enum"
+import { CommandsEnum } from '../enums/commands.enum'
 
 export function listBattleCommands(cmd: string): boolean {
   return cmd === CommandsEnum.battleCommands;
@@ -14,4 +14,8 @@ export function choosePokemon(cmd: string): boolean {
 
 export function attack(cmd: string): boolean {
   return cmd === CommandsEnum.attack;
+}
+
+export function shinyRoll(cmd: string): boolean {
+  return cmd === CommandsEnum.shinyroll;
 }

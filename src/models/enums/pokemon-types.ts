@@ -47,12 +47,12 @@ export interface TypeChartInterface {
 }
 
 export const TypeChart = {
-  NORMAL: {
+  [TypesEnum.NORMAL]: {
     weaknesses: [ TypesEnum.FIGHTING ],
     resistances: [],
     immunities: [ TypesEnum.GHOST ],
   },
-  FIRE: {
+  [TypesEnum.FIRE]: {
     weaknesses: [
       TypesEnum.WATER,
       TypesEnum.GROUND,
@@ -68,7 +68,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  WATER: {
+  [TypesEnum.WATER]: {
     weaknesses: [
       TypesEnum.GRASS,
       TypesEnum.ELECTRIC,
@@ -81,7 +81,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  GRASS: {
+  [TypesEnum.GRASS]: {
     weaknesses: [
       TypesEnum.FIRE,
       TypesEnum.ICE,
@@ -97,7 +97,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  ELECTRIC: {
+  [TypesEnum.ELECTRIC]: {
     weaknesses: [ TypesEnum.GROUND ],
     resistances: [
       TypesEnum.ELECTRIC,
@@ -106,7 +106,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  ICE: {
+  [TypesEnum.ICE]: {
     weaknesses: [
       TypesEnum.FIRE,
       TypesEnum.FIGHTING,
@@ -116,7 +116,7 @@ export const TypeChart = {
     resistances: [ TypesEnum.ICE ],
     immunities: [],
   },
-  FIGHTING: {
+  [TypesEnum.FIGHTING]: {
     weaknesses: [
       TypesEnum.FLYING,
       TypesEnum.PSYCHIC,
@@ -129,7 +129,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  POISON: {
+  [TypesEnum.POISON]: {
     weaknesses: [
       TypesEnum.GROUND,
       TypesEnum.PSYCHIC,
@@ -143,7 +143,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  GROUND: {
+  [TypesEnum.GROUND]: {
     weaknesses: [
       TypesEnum.WATER,
       TypesEnum.GRASS,
@@ -155,7 +155,7 @@ export const TypeChart = {
     ],
     immunities: [ TypesEnum.ELECTRIC ],
   },
-  FLYING: {
+  [TypesEnum.FLYING]: {
     weaknesses: [
       TypesEnum.ELECTRIC,
       TypesEnum.ICE,
@@ -168,7 +168,7 @@ export const TypeChart = {
     ],
     immunities: [ TypesEnum.GROUND ],
   },
-  PSYCHIC: {
+  [TypesEnum.PSYCHIC]: {
     weaknesses: [
       TypesEnum.BUG,
       TypesEnum.GHOST,
@@ -180,7 +180,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  BUG: {
+  [TypesEnum.BUG]: {
     weaknesses: [
       TypesEnum.FIRE,
       TypesEnum.FLYING,
@@ -193,7 +193,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  ROCK: {
+  [TypesEnum.ROCK]: {
     weaknesses: [
       TypesEnum.WATER,
       TypesEnum.GRASS,
@@ -208,7 +208,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  GHOST: {
+  [TypesEnum.GHOST]: {
     weaknesses: [
       TypesEnum.GHOST,
       TypesEnum.DARK,
@@ -222,7 +222,7 @@ export const TypeChart = {
       TypesEnum.FIGHTING,
     ],
   },
-  DRAGON: {
+  [TypesEnum.DRAGON]: {
     weaknesses: [
       TypesEnum.ICE,
       TypesEnum.DRAGON,
@@ -236,7 +236,7 @@ export const TypeChart = {
     ],
     immunities: [],
   },
-  DARK: {
+  [TypesEnum.DARK]: {
     weaknesses: [
       TypesEnum.FIGHTING,
       TypesEnum.BUG,
@@ -247,7 +247,7 @@ export const TypeChart = {
     ],
     immunities: [ TypesEnum.PSYCHIC ],
   },
-  STEEL: {
+  [TypesEnum.STEEL]: {
     weaknesses: [
       TypesEnum.FIRE,
       TypesEnum.FIGHTING,
@@ -267,7 +267,7 @@ export const TypeChart = {
     ],
     immunities: [ TypesEnum.POISON ],
   },
-  FAIRY: {
+  [TypesEnum.FAIRY]: {
     weaknesses: [
       TypesEnum.STEEL,
       TypesEnum.FAIRY,

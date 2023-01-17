@@ -1,5 +1,5 @@
 import { merge } from 'lodash';
-import { Pokemon } from "./pokemon.model";
+import { IPokemon, Pokemon } from './pokemon.model';
 
 export class Player {
   username: string;
@@ -11,7 +11,7 @@ export class Player {
     merge(this, player);
   }
 
-  setPokemon(pokemon: Partial<Pokemon>): void {
+  setPokemon(pokemon: IPokemon): void {
     if (!this.pokemonChosen) {
       this.pokemonChosen = new Pokemon(pokemon);
     }

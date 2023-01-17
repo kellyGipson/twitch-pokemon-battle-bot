@@ -1,64 +1,53 @@
-import { Client } from 'tmi.js';
-import { BOT_AUTH } from './config/bot-auth';
-import { BattleHandler } from './models/classes/battle-handler.model';
 import { Message } from './models/classes/message.model';
-import * as cmds from './models/functions/commands';
 import { State } from './models/state/state';
-import { INIT_NATURE_MAP, INIT_TYPE_CHART_MAP } from './models/functions/init_app';
-import { LobbyHandler } from './models/classes/lobby-handler.model';
-import { BATTLE_COMMANDS } from './models/messages/battleCommands.messages';
-import { PokemonClient } from 'pokenode-ts';
-import { Pokemon } from './models/classes/pokemon.model';
+import { MessageModule } from './core/message/message-module';
+import { RedeemModule } from './core/redeem/redeem-module';
 
-export const appState = new State();
-export const TypeMap = INIT_TYPE_CHART_MAP();
-export const NatureMap = INIT_NATURE_MAP();
+export const s = new State();
 
-const client = Client(BOT_AUTH);
-const battleHandler = new BattleHandler(client);
-const lobbyHandler = new LobbyHandler(client, battleHandler);
+s.cli.connect();
 
-client.connect();
+s.cli.on('redeem', (channel, username, rewardType, tags) => {
+  RedeemModule.forEach((moduleFn) => moduleFn(channel, username, rewardType, tags));
+});
 
-client.on('message', (channel, userstate, message, self) => {
-  if (self || appState.isPauseCommands) { return; }
-
-  if (!appState.channel) {
-    appState.channel = channel;
-  }
-
+s.cli.on('message', (channel, userstate, message, self) => {    
+  if (self || s.isPauseCommands) { return; }
   const messageModel = new Message(message);
-  const api = new PokemonClient();
 
-  if (cmds.listBattleCommands(messageModel.command)) {
-    appState.pauseCommands();
-    BATTLE_COMMANDS.forEach((msg, idx) => {
-      client.say(channel, msg);
-    });
-  }
+  MessageModule.forEach((module) => module(channel, userstate, messageModel, self));
 
-  if (cmds.enterBattle(messageModel.command)) {
-    lobbyHandler.enterBattle(channel, userstate?.username);
-  }
+  // const api = new Pokemons.Client();
 
-  if (cmds.choosePokemon(messageModel.command)) {
-    if (!messageModel.areParamsEmpty()) {// add back appState.hasBothPlayers()
-      api.getPokemonByName(
-        messageModel.paramAtIndex(0).toLowerCase()
-      ).then((p) => {
-        const pokemon: Pokemon = new Pokemon().fromApi(p);
-        appState.assignPokemonToPlayer(userstate.username, pokemon);
-      }).catch((err) => {
-        client.say(channel, `Error: Issue pulling data for Pokemon: "${messageModel.paramAtIndex(0)}". Please try again.`);
-      });
-    }
-  }
+  // if (cmds.listBattleCommands(messageModel.command)) {
+  //   appState.pauseCommands();
+  //   BATTLE_COMMANDS.forEach((msg, idx) => {
+  //     s.cli.say(channel, msg);
+  //   });
+  // }
 
-  if (cmds.attack(messageModel.command)) {
-  }
+  // if (cmds.enterBattle(messageModel.command)) {
+  //   lobbyHandler.enterBattle(channel, userstate?.username);
+  // }
 
-  if (message === '!clearState') {
-    appState.clear();
-    client.say(channel, 'cleared.');
-  }
+  // if (cmds.choosePokemon(messageModel.command)) {
+  //   if (!messageModel.areParamsEmpty()) {// add back appState.hasBothPlayers()
+  //     api.getPokemonByName(
+  //       messageModel.paramAtIndex(0).toLowerCase()
+  //     ).then((p) => {
+  //     const pokemon: Pokemon = new Pokemon().fromApi(p);
+  //     appState.assignPokemonToPlayer(userstate.username, pokemon);
+  //     }).catch((err) => {
+  //       s.cli.say(channel, `Error: Issue pulling data for Pokemon: '${messageModel.paramAtIndex(0)}'. Please try again.`);
+  //     });
+  //   }
+  // }
+
+  // if (cmds.attack(messageModel.command)) {
+  // }
+
+  // if (message === '!clearState') {
+  //   appState.clear();
+  //   s.cli.say(channel, 'cleared.');
+  // }
 });

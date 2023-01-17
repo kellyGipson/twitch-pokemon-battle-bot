@@ -1,11 +1,11 @@
-import { head, merge } from "lodash";
+import { head, merge } from 'lodash';
 
 export class Message {
   private _command: string;
   private _params: string[]
   
   constructor(message: string) {
-    merge(this, this._parseMessage(message));
+    merge(this, this._parseMessage(message.toLowerCase()));
   }
 
   areParamsEmpty(): boolean {

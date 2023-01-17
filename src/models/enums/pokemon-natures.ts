@@ -1,4 +1,4 @@
-import { StatsEnum } from "./pokemon-stats";
+import { StatsEnum } from './pokemon-stats';
 
 export enum NaturesEnum {
   ADAMANT = 'ADAMANT',

@@ -1,6 +1,6 @@
-import { Client } from "tmi.js";
-import { appState } from "../..";
-import { BattleHandler } from "./battle-handler.model";
+import { Client } from 'tmi.js';
+import { s } from '../..';
+import { BattleHandler } from './battle-handler.model';
 
 export class LobbyHandler {
   private _client: Client;
@@ -15,7 +15,7 @@ export class LobbyHandler {
   }
 
   async enterBattle(channel: string, username: string): Promise<void> {
-    if (appState.attemptAssignP1(username)) {
+    if (s.attemptAssignP1(username)) {
       await this._client.say(channel,
         `${username} has entered the battle as Player 1. 20 seconds remaining for Player 2 to join.`
       ).then((_) => {
@@ -24,7 +24,7 @@ export class LobbyHandler {
       return;
     }
 
-    if (appState.attemptAssignP2(username)) {
+    if (s.attemptAssignP2(username)) {
       await this._client.say(channel,
         `${username} has entered the battle as Player 2. Beginning battle.`
       ).then((_) => {
@@ -36,14 +36,14 @@ export class LobbyHandler {
 
   private _beginJoinTimer(channel: string): void {
     setTimeout(() => {
-      if (!appState.playerTwo) {
+      if (!s.playerTwo) {
         this._cancelBattle(channel);
       }
     }, 20000)
   }
 
   private async _cancelBattle(channel: string): Promise<void> {
-    appState.clear();
+    s.clear();
     this._client.say(channel, `Time's up! No Player Two.`);
   }
 }

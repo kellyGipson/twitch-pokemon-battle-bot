@@ -1,11 +1,24 @@
-import { Player } from "../classes/player.model";
-import { Pokemon } from "../classes/pokemon.model";
+import { Player } from '../classes/player.model';
+import { Pokemon } from '../classes/pokemon.model';
+import { INIT_TYPE_CHART_MAP, INIT_NATURE_MAP } from '../functions/init_app';
+import * as tmi from 'tmi.js';
+import { BOT_AUTH } from '../../config/bot-auth';
+import { BattleHandler } from '../classes/battle-handler.model';
+import { LobbyHandler } from '../classes/lobby-handler.model';
 
 export class State {
+  readonly cli = tmi.Client(BOT_AUTH);
+  readonly battleHandler = new BattleHandler(this.cli);
+  readonly lobbyHandler = new LobbyHandler(this.cli, this.battleHandler);
   playerOne: Player = null;
   playerTwo: Player = null;
   winner: Player = null;
   channel: string = null;
+  readonly TypeMap = INIT_TYPE_CHART_MAP();
+  readonly NatureMap = INIT_NATURE_MAP();
+  readonly userAlreadyRolledMap = new Map<string, boolean>();
+  readonly userIsRedeemingMap = new Map<string, boolean>();
+  mockSpimTrue: boolean = false;
   private _isPauseCommands: boolean = false;
   get isPauseCommands() {
     return this._isPauseCommands;

@@ -3,4 +3,5 @@ export enum CommandsEnum {
   enterLobby = '!enter',
   choosePokemon = '!choose',
   attack = '!attack',
+  shinyroll = '!shinyroll',
 }
