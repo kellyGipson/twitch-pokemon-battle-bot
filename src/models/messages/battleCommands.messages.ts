@@ -1,4 +1,4 @@
-import { CommandsEnum } from '../enums/commands.enum';
+import { CommandsEnum } from '../battle-bot/commands.enum';
 
 export const BATTLE_COMMANDS = [
   `'${CommandsEnum.battleCommands}' to list the commands.`,
