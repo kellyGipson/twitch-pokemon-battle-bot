@@ -1,5 +1,3 @@
-import { Pokemon } from '../models/classes/pokemon.model';
-
 // export const PokemonPool: Pokemon[] = [
 //   new Pokemon({
 //     name: 'florges',
