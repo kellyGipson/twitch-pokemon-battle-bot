@@ -4,4 +4,5 @@ export enum CommandsEnum {
   choosePokemon = '!choose',
   attack = '!attack',
   shinyroll = '!shinyroll',
+  subroll = '!subroll',
 }

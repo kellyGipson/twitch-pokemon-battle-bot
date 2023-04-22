@@ -1,9 +1,9 @@
 import { keysIn, merge } from 'lodash';
 import { Pokemon as pokenotePokemon } from 'pokenode-ts';
 import { s } from '../..';
-import { NaturesDataInterface, PokemonNatures } from '../enums/pokemon-natures';
-import { emptyStats, IStats } from '../enums/pokemon-stats';
-import { TypesEnum } from '../enums/pokemon-types';
+import { TypesEnum } from './pokemon-types';
+import { NaturesDataInterface, PokemonNatures } from './pokemon-natures';
+import { IStats, emptyStats } from './pokemon-stats';
 
 export interface IPokemon {
   name: string;

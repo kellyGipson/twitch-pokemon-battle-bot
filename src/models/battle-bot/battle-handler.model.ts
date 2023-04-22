@@ -1,6 +1,6 @@
 import { Client } from 'tmi.js';
 import { s } from '../..';
-import { CommandsEnum } from '../enums/commands.enum';
+import { CommandsEnum } from './commands.enum';
 
 export class BattleHandler {
   private _client: Client;

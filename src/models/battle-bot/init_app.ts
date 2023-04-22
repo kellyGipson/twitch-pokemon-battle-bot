@@ -1,5 +1,5 @@
-import { NaturesData, NaturesDataInterface, PokemonNatures } from '../enums/pokemon-natures';
-import { TypeChart, TypeChartInterface, Types } from '../enums/pokemon-types';
+import { NaturesData, NaturesDataInterface, PokemonNatures } from "./pokemon-natures";
+import { TypeChart, TypeChartInterface, Types } from "./pokemon-types";
 
 export const INIT_TYPE_CHART_MAP = (): Map<string, TypeChartInterface> => {
   const chart = new Map<string, TypeChartInterface>();
