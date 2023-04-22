@@ -1,24 +1,26 @@
-import { Player } from '../classes/player.model';
-import { Pokemon } from '../classes/pokemon.model';
-import { INIT_TYPE_CHART_MAP, INIT_NATURE_MAP } from '../functions/init_app';
+import { INIT_TYPE_CHART_MAP, INIT_NATURE_MAP } from '../battle-bot/init_app';
 import * as tmi from 'tmi.js';
 import { BOT_AUTH } from '../../config/bot-auth';
-import { BattleHandler } from '../classes/battle-handler.model';
-import { LobbyHandler } from '../classes/lobby-handler.model';
+import { BattleHandler } from '../battle-bot/battle-handler.model';
+import { LobbyHandler } from '../battle-bot/lobby-handler.model';
+import { Player } from '../battle-bot/player.model';
+import { Pokemon } from '../battle-bot/pokemon.model';
 
 export class State {
   readonly cli = tmi.Client(BOT_AUTH);
   readonly battleHandler = new BattleHandler(this.cli);
   readonly lobbyHandler = new LobbyHandler(this.cli, this.battleHandler);
+  readonly TypeMap = INIT_TYPE_CHART_MAP();
+  readonly NatureMap = INIT_NATURE_MAP();
+  userAlreadyRolledMap = new Map<string, boolean>();
+  subAlreadyRolledMap = new Map<string, boolean>();
+  userIsRedeemingMap = new Map<string, boolean>();
   playerOne: Player = null;
   playerTwo: Player = null;
   winner: Player = null;
   channel: string = null;
-  readonly TypeMap = INIT_TYPE_CHART_MAP();
-  readonly NatureMap = INIT_NATURE_MAP();
-  readonly userAlreadyRolledMap = new Map<string, boolean>();
-  readonly userIsRedeemingMap = new Map<string, boolean>();
   mockSpimTrue: boolean = false;
+  
   private _isPauseCommands: boolean = false;
   get isPauseCommands() {
     return this._isPauseCommands;
@@ -58,6 +60,9 @@ export class State {
     this.playerOne = null;
     this.playerTwo = null;
     this.winner = null;
+    this.userAlreadyRolledMap = new Map<string, boolean>();
+    this.subAlreadyRolledMap = new Map<string, boolean>();
+    this.userIsRedeemingMap = new Map<string, boolean>();
   }
 
   hasBothPlayers(): boolean {
@@ -82,5 +87,11 @@ export class State {
 
     this.playerTwo = new Player({ username });
     return true;
+  }
+
+  clearUsernameShinyroll(username: string): void {
+    this.userAlreadyRolledMap.delete(username);
+    this.subAlreadyRolledMap.delete(username);
+    this.userIsRedeemingMap.delete(username);
   }
 }
