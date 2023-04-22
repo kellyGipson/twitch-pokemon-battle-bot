@@ -1,21 +1,31 @@
-import { Message } from './models/classes/message.model';
 import { State } from './models/state/state';
 import { MessageModule } from './core/message/message-module';
 import { RedeemModule } from './core/redeem/redeem-module';
+import { Message } from './models/twitch-bot/message.model';
+import { RedeemModuleParams } from './models/module/redeem-module-params.model';
+import { MessageModuleParams } from './models/module/message-module-params.model';
 
 export const s = new State();
 
 s.cli.connect();
 
 s.cli.on('redeem', (channel, username, rewardType, tags) => {
-  RedeemModule.forEach((moduleFn) => moduleFn(channel, username, rewardType, tags));
+  RedeemModule.forEach((moduleFn) => {
+    if (moduleFn.condition(new RedeemModuleParams({ channel, username, rewardType, tags }))) {
+      moduleFn.core(new RedeemModuleParams({ channel, username, rewardType, tags }))
+    }
+  });
 });
 
 s.cli.on('message', (channel, userstate, message, self) => {    
   if (self || s.isPauseCommands) { return; }
   const messageModel = new Message(message);
 
-  MessageModule.forEach((module) => module(channel, userstate, messageModel, self));
+  MessageModule.forEach((moduleFn) => {
+    if (moduleFn.condition(new MessageModuleParams({ channel, userstate, message: messageModel, self }))) {
+      moduleFn.core(new MessageModuleParams({ channel, userstate, message: messageModel, self }))
+    }
+  });
 
   // const api = new Pokemons.Client();
 
@@ -46,8 +56,4 @@ s.cli.on('message', (channel, userstate, message, self) => {
   // if (cmds.attack(messageModel.command)) {
   // }
 
-  // if (message === '!clearState') {
-  //   appState.clear();
-  //   s.cli.say(channel, 'cleared.');
-  // }
 });

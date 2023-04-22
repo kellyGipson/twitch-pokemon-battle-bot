@@ -1,6 +1,6 @@
-import { RedeemShinyRollCore } from "./redeem-shiny-roll/redeem-shiny-roll.core";
-import { RedeemModuleFnType } from "../../models/types/module.types";
+import { Module } from "../../models/module/module.model";
+import { RedeemShinyRollModule } from "./redeem-shiny-roll/redeem-shiny-roll.module";
 
-export const RedeemModule: RedeemModuleFnType[] = [
-  RedeemShinyRollCore,
+export const RedeemModule: Module[] = [
+  RedeemShinyRollModule,
 ];
