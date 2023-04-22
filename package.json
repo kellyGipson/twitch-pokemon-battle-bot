@@ -6,11 +6,15 @@
   "scripts": {
     "start": "node ts-built/index.js",
     "ts-watch": "npx tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ts-compile": "npx tsc",
+    "test": "npx karma start karma.conf.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jasmine": "^4.3.1",
+    "karma": "^6.4.2",
+    "karma-typescript": "^5.5.3",
     "lodash": "^4.17.21",
     "pokenode-ts": "^1.17.0",
     "tmi.js": "^1.8.5"
@@ -19,6 +23,10 @@
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.17",
     "@types/tmi.js": "^1.8.2",
+    "jasmine-core": "^4.6.0",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.0.0",
     "typescript": "^4.9.4"
   }
 }
