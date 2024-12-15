@@ -5,4 +5,10 @@ export enum CommandsEnum {
   attack = '!attack',
   shinyroll = '!shinyroll',
   subroll = '!subroll',
+  phase = '!phase',
+  shoutouts = '!shoutouts',
+  clearuserrolls = '!clearuserrolls',
+  clearstate = '!clearstate',
+  backup = '!backup',
+  NO_COMMAND = 'NO_COMMAND',
 }

@@ -4,10 +4,10 @@ import { MessageModuleFnType } from "../../../models/module/message-module-fn.ty
 export const SpimMockCore: MessageModuleFnType = (params) => {
   if (params.userstate.username === 'spimtmot733' && s.mockSpimTrue) {
     let spimMsg: string = '';
-    for(let i = 0; i < params.message.command.length; i++) {
+    for(let i = 0; i < params.message.originalMessage.length; i++) {
       const character = (i % 2 === 0) ?
-        params.message.command[i] :
-        params.message.command[i].toUpperCase();
+        params.message.originalMessage[i] :
+        params.message.originalMessage[i].toUpperCase();
       spimMsg = spimMsg + character;
     }
     

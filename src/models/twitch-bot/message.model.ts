@@ -2,29 +2,34 @@ import { head, merge } from 'lodash';
 
 export class Message {
   private _command: string;
-  private _params: string[]
+  private _args: string[];
+  private _originalMessage: string;
   
   constructor(message: string) {
     merge(this, this._parseMessage(message.toLowerCase()));
   }
 
   areParamsEmpty(): boolean {
-    return this.params.length === 0;
+    return this.args.length === 0;
+  }
+
+  get originalMessage(): string {
+    return this._originalMessage;
   }
 
   get command(): string {
     return this._command;
   }
   
-  get params(): string[] {
-    return this._params;
+  get args(): string[] {
+    return this._args;
   }
 
   paramAtIndex(index: number): string {
-    if (this._params.length === 0 || !this._params.find((s, idx) => idx === index)) {
+    if (this._args.length === 0 || !this._args.find((s, idx) => idx === index)) {
       return '';
     }
-    return this._params.find((s, idx) => idx === index);
+    return this._args.find((s, idx) => idx === index);
   }
 
   private _parseMessage(message: string): MessageInterface {
@@ -32,7 +37,8 @@ export class Message {
 
     return {
       _command: head(message.split(' ')),
-      _params: message.split(' ').filter((s, idx) => idx > 0)
+      _params: message.split(' ').filter((s, idx) => idx > 0),
+      _originalMessage: message,
     };
   }
 }
@@ -40,4 +46,6 @@ export class Message {
 interface MessageInterface {
   _command: string;
   _params: string[];
+  _originalMessage: string;
 }
+{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}

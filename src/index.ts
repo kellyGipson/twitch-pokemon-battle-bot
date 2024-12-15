@@ -1,59 +1,54 @@
 import { State } from './models/state/state';
-import { MessageModule } from './core/message/message-module';
+import { MessageModules } from './core/message/message-module';
 import { RedeemModule } from './core/redeem/redeem-module';
 import { Message } from './models/twitch-bot/message.model';
 import { RedeemModuleParams } from './models/module/redeem-module-params.model';
 import { MessageModuleParams } from './models/module/message-module-params.model';
+import { CommandsEnum } from './models/battle-bot/commands.enum';
+import { IModule } from './models/module/i-module';
+import { ShinyRollPrimeTimeTimer } from './models/shiny-roll/prime-time/prime-time-timer';
+
+console.log('Starting up the twitch bot');
 
 export const s = new State();
+new ShinyRollPrimeTimeTimer().run();
 
 s.cli.connect();
 
 s.cli.on('redeem', (channel, username, rewardType, tags) => {
-  RedeemModule.forEach((moduleFn) => {
-    if (moduleFn.condition(new RedeemModuleParams({ channel, username, rewardType, tags }))) {
-      moduleFn.core(new RedeemModuleParams({ channel, username, rewardType, tags }))
+  RedeemModule.forEach((module) => {
+    const redeemParams = new RedeemModuleParams({ channel, username, rewardType, tags });
+    
+    if (module.condition(redeemParams)) {
+      (module?.errorHandlers || []).forEach((errHandler) => errHandler.catch(redeemParams));
+      module.core(redeemParams);
     }
   });
 });
 
-s.cli.on('message', (channel, userstate, message, self) => {    
-  if (self || s.isPauseCommands) { return; }
+s.cli.on('message', (channel, userstate, message, self) => {
+  if (self) { return; }
+
   const messageModel = new Message(message);
-
-  MessageModule.forEach((moduleFn) => {
-    if (moduleFn.condition(new MessageModuleParams({ channel, userstate, message: messageModel, self }))) {
-      moduleFn.core(new MessageModuleParams({ channel, userstate, message: messageModel, self }))
+  s.messageRegistry.register(messageModel);
+  const messageParams = new MessageModuleParams({ channel, userstate, message: messageModel, self });
+  
+  MessageModules.forEach((module) => {
+    if (commandCheck(module, messageModel) && moduleCheck(module, messageParams)) {
+      (module?.errorHandlers || []).forEach((errHandler) => errHandler.catch(messageParams));
+      module.core(messageParams);
     }
   });
-
-  // const api = new Pokemons.Client();
-
-  // if (cmds.listBattleCommands(messageModel.command)) {
-  //   appState.pauseCommands();
-  //   BATTLE_COMMANDS.forEach((msg, idx) => {
-  //     s.cli.say(channel, msg);
-  //   });
-  // }
-
-  // if (cmds.enterBattle(messageModel.command)) {
-  //   lobbyHandler.enterBattle(channel, userstate?.username);
-  // }
-
-  // if (cmds.choosePokemon(messageModel.command)) {
-  //   if (!messageModel.areParamsEmpty()) {// add back appState.hasBothPlayers()
-  //     api.getPokemonByName(
-  //       messageModel.paramAtIndex(0).toLowerCase()
-  //     ).then((p) => {
-  //     const pokemon: Pokemon = new Pokemon().fromApi(p);
-  //     appState.assignPokemonToPlayer(userstate.username, pokemon);
-  //     }).catch((err) => {
-  //       s.cli.say(channel, `Error: Issue pulling data for Pokemon: '${messageModel.paramAtIndex(0)}'. Please try again.`);
-  //     });
-  //   }
-  // }
-
-  // if (cmds.attack(messageModel.command)) {
-  // }
-
 });
+
+const moduleCheck = (module: IModule, messageParams: MessageModuleParams) => {
+  if (!module.condition) { return true; }
+
+  return module.condition(messageParams);
+};
+
+const commandCheck = (module: IModule, message: Message) => moduleNoCommand(module) || commandMatches(module, message);
+
+const commandMatches = (module: IModule, message: Message) => module.command === message.command.toLowerCase();
+
+const moduleNoCommand = (module: IModule) => module.command === CommandsEnum.NO_COMMAND;

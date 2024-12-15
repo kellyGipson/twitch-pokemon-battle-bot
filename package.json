@@ -4,7 +4,7 @@
   "description": "Pokemon Battles with Twitch Chat",
   "main": "ts-built/index.js",
   "scripts": {
-    "start": "node ts-built/index.js",
+    "start": "npx tsc && node ts-built/index.js",
     "ts-watch": "npx tsc --watch",
     "ts-compile": "npx tsc",
     "test": "npx karma start karma.conf.js"

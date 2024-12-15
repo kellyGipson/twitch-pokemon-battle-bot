@@ -1,13 +1,13 @@
+import { CommandsEnum } from "../../../models/battle-bot/commands.enum";
 import { MessageModuleParams } from "../../../models/module/message-module-params.model";
-import { Module } from "../../../models/module/module.model";
+import { IModule } from "../../../models/module/i-module";
 import { ClearPlayerCore } from "./clear-user-rolls.core";
 
-export const ClearUserRollsModule: Module = {
+export const ClearUserRollsModule: IModule = {
   core: ClearPlayerCore,
-  condition: (params: MessageModuleParams) =>
-    params.message.command.toLowerCase() === '!clearuserrolls' &&
-    (
-      params.userstate.username.toLowerCase() === 'recursivepoi' ||
-      params.userstate.username.toLowerCase() === 'nightbot'
-    )
+  command: CommandsEnum.clearuserrolls,
+  condition: (params: MessageModuleParams) => (
+    params.userstate.username.toLowerCase() === 'poipkmn' ||
+    params.userstate.username.toLowerCase() === 'nightbot'
+  )
 };

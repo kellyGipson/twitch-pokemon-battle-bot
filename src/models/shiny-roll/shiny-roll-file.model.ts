@@ -2,8 +2,8 @@ import { assign } from "lodash";
 import { RollTypesEnum } from "./roll-types.model";
 
 export class ShinyRollFileModel {
-  totalCount: number;
-  rolls: ShinyRollFileUserModel[];
+  totalCount: number = 0;
+  rolls: ShinyRollFileUserModel[] = [];
 
   constructor(data: Partial<ShinyRollFileModel>) {    
     assign(this, data);

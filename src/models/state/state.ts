@@ -5,6 +5,8 @@ import { BattleHandler } from '../battle-bot/battle-handler.model';
 import { LobbyHandler } from '../battle-bot/lobby-handler.model';
 import { Player } from '../battle-bot/player.model';
 import { Pokemon } from '../battle-bot/pokemon.model';
+import { head } from 'lodash';
+import { MessageRegistry } from '../messages/message-registry';
 
 export class State {
   readonly cli = tmi.Client(BOT_AUTH);
@@ -12,21 +14,34 @@ export class State {
   readonly lobbyHandler = new LobbyHandler(this.cli, this.battleHandler);
   readonly TypeMap = INIT_TYPE_CHART_MAP();
   readonly NatureMap = INIT_NATURE_MAP();
+  readonly messageRegistry: MessageRegistry;
   userAlreadyRolledMap = new Map<string, boolean>();
   subAlreadyRolledMap = new Map<string, boolean>();
   userIsRedeemingMap = new Map<string, boolean>();
   playerOne: Player = null;
   playerTwo: Player = null;
   winner: Player = null;
-  channel: string = null;
+  channel: string = head(BOT_AUTH.channels);
   mockSpimTrue: boolean = false;
-  
-  private _isPauseCommands: boolean = false;
-  get isPauseCommands() {
-    return this._isPauseCommands;
+
+  private _isShinyRollPrimeTime: boolean = false;
+  public get isShinyRollPrimeTime(): boolean {
+    return this._isShinyRollPrimeTime;
+  }
+  public set isShinyRollPrimeTime(value: boolean) {
+    this._isShinyRollPrimeTime = value;
+    if (value) {
+      this.clear();
+    }
+    this.cli.say(this.channel, (value) ?
+      'Prime time is now starting - double rolls for everyone!' :
+      'Prime time over, pack up everyone o7'
+    );
   }
 
-  constructor() {}
+  constructor() {
+    this.messageRegistry = new MessageRegistry();
+  }
 
   findPlayerByUsername(username: string): Player {
     if (this.playerOne.username === username) return this.playerOne;
@@ -47,13 +62,6 @@ export class State {
 
   bothPlayersSelectedPokemon(): boolean {
     return this.playerOne.hasChosenPokemon() && this.playerTwo.hasChosenPokemon();
-  }
-
-  pauseCommands(): void {
-    this._isPauseCommands = true;
-    setTimeout(() => {
-      this._isPauseCommands = false;
-    }, 10000);
   }
 
   clear(): void {
